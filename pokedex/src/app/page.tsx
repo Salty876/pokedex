@@ -57,7 +57,10 @@ export default function Page() {
         {filteredPokemon.map((pokemon, index) =>
         // check if sprite exists before rendering
           pokemon.sprite ? (
-            <Link key={index} className={styles.pokemonCard} href={`/pokemon/${pokemon.name}`}>
+            <Link key={index} className={styles.pokemonCard} href={{
+              pathname: `/pokemon/${pokemon.name}`,
+              query: { sprite: pokemon.sprite , name: pokemon.name }
+            }}>
               <img 
                 src={pokemon.sprite} 
                 alt={pokemon.name} 

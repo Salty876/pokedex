@@ -1,15 +1,14 @@
+"use client";
+import { useSearchParams } from "next/navigation";
 import "@/app/globals.css"
 import styles from "./pokemon_page.module.css";
 
 
-
-export default async function Page({
-    params,
-}: {
-    params:Promise<{pokemon: string}>
-}) {
-    const {pokemon} = await params
-
+export default function PokemonPage() {
+    const searchParams = useSearchParams();
+    const sprite = searchParams.get("sprite");
+    const name = searchParams.get("name");
+    
     return (
         <main className={styles.main}>
             {/* header */}
@@ -30,8 +29,39 @@ export default async function Page({
 
           {/* pokemon info  */}
           <div className={styles.pokemonInfo}>
-            <img src={`/${pokemon}.png`} alt="Pokemon_Name" />
+            <img src={sprite} alt={name} className={styles.pokemonSprite}/>
+            <p className={styles.pokemonName}>{String(name).charAt(0).toUpperCase() + String(name).slice(1)}</p>
+            
+            
+            <p className={styles.pokemonDescription}>Description: A Lebron Lover.</p>
           </div>
+          <div className={styles.pokemonInfoMore}>
+            <h2 className={styles.pokemonInfoTitle}>Pokedex Info</h2>
+            <div className={styles.pokemonId}>#123</div>
+            <div className={styles.pokemonType}>Type: Fire</div>
+            <div className={styles.pokemonHeight}>Height: 1.2m</div>
+            <div className={styles.pokemonWeight}>Weight: 20kg</div>
+            <div className={styles.pokemonStats}>Stats: HP: 100, Attack: 150, Defense: 120</div>
+            <div className={styles.pokemonAbilities}>Abilities: Blaze, Solar Power</div>
+           </div>
+            <div className={styles.pokemonDescription}>Description: A Lebron Lover.</div>
+
+            <div className={styles.pokemonInfoMore}>
+            <div>
+            <p className={styles.pokemonMovesListTitle}>Moves:</p>
+            <ul className={styles.pokemonMovesListItems}>
+              <li className={styles.pokemonMove}>Flamethrower</li>
+              <li className={styles.pokemonMove}>Solar Beam</li>
+              <li className={styles.pokemonMove}>Fire Spin</li>
+              <li className={styles.pokemonMove}>Ember</li>
+              <li className={styles.pokemonMove}>Fire Blast</li>
+              <li className={styles.pokemonMove}>Heat Wave</li>
+              <li className={styles.pokemonMove}>Inferno</li>
+              <li className={styles.pokemonMove}>Overheat</li>
+              <li className={styles.pokemonMove}>Flame Charge</li>
+              </ul>
+              </div>
+            </div>
         </main>
       );
 
