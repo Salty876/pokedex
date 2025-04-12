@@ -2,7 +2,7 @@ import { PokemonSmall } from '../../components/interfaces'
 
 export async function GET(request: Request) {
     //fetch data from 
-    const data = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1500")
+    const data = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1500",  {cache: 'force-cache'})
     const list = await data.json()
 
 
@@ -24,6 +24,7 @@ export async function GET(request: Request) {
         // console.log(list.results[i].name)
         menu.push(addition)
     }
+    
     return new Response(JSON.stringify(menu), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
