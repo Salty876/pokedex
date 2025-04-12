@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     for (let i in list.results){
        
 
-        const info = await fetch(`https://pokeapi.co/api/v2/pokemon/${list.results[i].name}`)
+        const info = await fetch(`https://pokeapi.co/api/v2/pokemon/${list.results[i].name}`, {cache: 'force-cache'})
         const pokemon = await info.json()
 
         let addition:PokemonSmall = {
