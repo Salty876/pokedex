@@ -7,7 +7,7 @@ export default function Page() {
     <main>
       <div className={styles.header}>
         <h2>
-          <img src="/pokeball.png" alt="Pokeball" className="pokeball" />
+          <img src="/pokeball.png" alt="Pokeball"/>
           Pokédex!
         </h2>
         <input
