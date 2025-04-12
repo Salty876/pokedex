@@ -1,3 +1,4 @@
+import Link from "next/link";
 import "./globals.css"
 import styles from "./page.module.css";
 
@@ -26,9 +27,9 @@ export default function Pokedex() {
 
       <div className={styles.pokemonList}>
         {pokemonList.map((pokemon, index) => (
-          <div key={index} className={styles.pokemonCard}>
-            {pokemon}
-          </div>
+          <Link key={index} className={styles.pokemonCard} href={`/pokemon/${pokemon}`}>
+            <img src={`/${pokemon}.png`} alt={pokemon}/>
+          </Link>
         ))}
       </div>
     </main>
