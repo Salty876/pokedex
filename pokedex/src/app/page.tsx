@@ -1,12 +1,33 @@
+'use client'; 
+
 import Link from "next/link";
-import "./globals.css"
+import { useState, useEffect } from "react";
+import "./globals.css";
 import styles from "./page.module.css";
 
-export default function Pokedex() {
-  const pokemonList = [
-    "Pikachu", "Charizard", "Bulbasaur", "Squirtle", 
-    "Jigglypuff", "Mewtwo", "Eevee", "Snorlax"
-  ];
+export default function Page() {
+  const [allPokemon, setAllPokemon] = useState([]);
+  const [filteredPokemon, setFilteredPokemon] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // fetch data without needing to use async
+  useEffect(() => {
+    const fetchPokemon = async () => {
+      const response = await fetch("http://localhost:3001/api/list");
+      const data = await response.json();
+      setAllPokemon(data);
+      setFilteredPokemon(data);
+    };
+    fetchPokemon();
+  });
+
+  // filter pokemn based on search term
+  useEffect(() => {
+    const filtered = allPokemon.filter(pokemon =>
+      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredPokemon(filtered);
+  }, [searchTerm, allPokemon]);
 
   return (
     <main className={styles.main}>
@@ -20,17 +41,35 @@ export default function Pokedex() {
             type="text"
             className={styles.searchBar}
             placeholder="Search Pokémon..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className={styles.searchButton}>Search</button>
+          <button 
+            className={styles.searchButton}
+            onClick={() => setSearchTerm("")} // Clear search
+          >
+            {searchTerm ? "Clear" : "Search"}
+          </button>
         </div>
       </div>
 
       <div className={styles.pokemonList}>
-        {pokemonList.map((pokemon, index) => (
-          <Link key={index} className={styles.pokemonCard} href={`/pokemon/${pokemon}`}>
-            <img src={`/${pokemon}.png`} alt={pokemon}/>
-          </Link>
-        ))}
+        {filteredPokemon.map((pokemon, index) =>
+        // check if sprite exists before rendering
+          pokemon.sprite ? (
+            <Link key={index} className={styles.pokemonCard} href={{
+              pathname: `/pokemon/${pokemon.name}`,
+              query: { sprite: pokemon.sprite , name: pokemon.name }
+            }}>
+              <img 
+                src={pokemon.sprite} 
+                alt={pokemon.name} 
+                className={styles.pokemonImage}
+              />
+
+            </Link>
+          ) : null
+        )}
       </div>
     </main>
   );
