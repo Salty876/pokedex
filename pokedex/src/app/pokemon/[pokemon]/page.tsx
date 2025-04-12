@@ -1,20 +1,28 @@
 "use client";
 import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+
 import "@/app/globals.css"
 import styles from "./pokemon_page.module.css";
 
 
-export default async function PokemonPage({
-    params,
-  }: {
-    params: Promise<{ slug: string }>
-  }) {
-    const { slug } = await params
+export default function PokemonPage(){
+    
+    const [pokemonData, setAllPokemon] = useState([]);
+   
 
-    const response = await fetch(`http://localhost:3001/api/pokemon${slug}`);
-    const pokemonData = await response.json();
+    // fetch data without needing to use async
+    useEffect(() => {
+        const fetchPokemon = async () => {
+        const response = await fetch("http://localhost:3001/api/list");
+        const data = await response.json();
+        setAllPokemon(data);
+        };
+        fetchPokemon();
+    });
 
-    const searchParams = useSearchParams();
+
+
 
 
     
