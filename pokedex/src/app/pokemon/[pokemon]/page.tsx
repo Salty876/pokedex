@@ -33,10 +33,7 @@ export default function PokemonPage() {
             <p className={styles.pokemonName}>{String(name).charAt(0).toUpperCase() + String(name).slice(1)}</p>
             
             
-<<<<<<< Updated upstream
-=======
             <p className={styles.pokemonDescription}>Description: A Lebron Lover.</p>
->>>>>>> Stashed changes
           </div>
           <div className={styles.pokemonInfoMore}>
             <h2 className={styles.pokemonInfoTitle}>Pokedex Info</h2>
