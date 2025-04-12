@@ -9,7 +9,7 @@ export async function GET(request: Request) {
 
     const pokemon = arrayPath[5]
 
-    const info = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+    const info = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`,{cache:"force-cache"})
     const pokemonData = await info.json()
 
     let moves:move[] = []

@@ -1,28 +1,21 @@
-"use client";
-import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+
 
 import "@/app/globals.css"
 import styles from "./pokemon_page.module.css";
 
 
-export default function PokemonPage(){
+export default async function Page({params,
+          }: {
+        params: Promise<{ pokemon: string }>
+         }){
     
-    const [pokemonData, setAllPokemon] = useState([]);
-   
-
-    // fetch data without needing to use async
-    useEffect(() => {
-        const fetchPokemon = async () => {
-        const response = await fetch("http://localhost:3001/api/list");
-        const data = await response.json();
-        setAllPokemon(data);
-        };
-        fetchPokemon();
-    });
+      
+        const { pokemon } = await params
 
 
-
+        const response = await fetch(`http://localhost:3000/api/pokemon/${pokemon}`,);
+        const pokemonData = await response.json();
+        console.log(pokemonData)
 
 
     
@@ -34,14 +27,14 @@ export default function PokemonPage(){
               <img src="/pokeball.png" alt="Pokeball" className={styles.logo} />
               Pokédex!
             </h2>
-            <div className={styles.searchContainer}>
+            {/* <div className={styles.searchContainer}>
               <input
                 type="text"
                 className={styles.searchBar}
                 placeholder="Search Pokémon..."
               />
               <button className={styles.searchButton}>Search</button>
-            </div>
+            </div> */}
           </div>
 
           {/* pokemon info  */}
