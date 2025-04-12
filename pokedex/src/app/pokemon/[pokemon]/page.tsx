@@ -4,6 +4,7 @@ export default async function Page({
     params:Promise<{pokemon: string}>
 }) {
     const {pokemon} = await params
+
     return (
         <p>{pokemon}</p>
     )
