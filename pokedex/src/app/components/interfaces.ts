@@ -80,7 +80,6 @@ export interface type{
 
 export interface abilty{
     name:string;
-    hidden:boolean;
 }
 
 export interface encounter{

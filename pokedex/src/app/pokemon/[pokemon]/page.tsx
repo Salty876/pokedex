@@ -16,7 +16,7 @@ export default async function Page({params,
         const response = await fetch(`http://localhost:3000/api/pokemon/${pokemon}`,);
         const pokemonData = await response.json();
         console.log(pokemonData)
-        console.log(pokemonData.types[0])
+        console.log(pokemonData.types)
 
     
     return (
@@ -50,16 +50,22 @@ export default async function Page({params,
             <div className={styles.pokemonId}>#{pokemonData.order}</div>
             <div className={styles.pokemonType}><img src={pokemonData.types[0].icon}></img></div>
             <div className={styles.pokemonHeight}>Height: {pokemonData.height}m</div>
-            <div className={styles.pokemonWeight}>Weight: {pokemonData.weight}</div>
-            <div className={styles.pokemonAbilities}>Abilities: Blaze, Solar Power</div>
+            <div className={styles.pokemonWeight}>Weight: {pokemonData.weight}kg</div>
+
+            <div className={styles.pokemonAbilities}>Abilities: {pokemonData.abilities.map((ability) => (
+              <p key={ability.name}>{ability.name}</p>
+            ))}</div>
+
            </div>
 
 
             <div className={styles.pokemonInfoMore}>
             <div>
             <p className={styles.pokemonMovesListTitle}>Moves:</p>
-            <ul className={styles.pokemonMovesListItems}>
-              <li className={styles.pokemonMove}>Flamethrower</li>
+            <ul className={styles.pokemonMovesListItems}> {pokemonData.moves.map((move) => (
+                <li className={styles.pokemonMove} key={move.name}>{move.name} learned by {move.method} at level {move.level}</li>
+              ))}
+              {/* <li className={styles.pokemonMove}>Flamethrower</li>
               <li className={styles.pokemonMove}>Solar Beam</li>
               <li className={styles.pokemonMove}>Fire Spin</li>
               <li className={styles.pokemonMove}>Ember</li>
@@ -67,7 +73,8 @@ export default async function Page({params,
               <li className={styles.pokemonMove}>Heat Wave</li>
               <li className={styles.pokemonMove}>Inferno</li>
               <li className={styles.pokemonMove}>Overheat</li>
-              <li className={styles.pokemonMove}>Flame Charge</li>
+              <li className={styles.pokemonMove}>Flame Charge</li> */}
+              
               </ul>
               </div>
             </div>

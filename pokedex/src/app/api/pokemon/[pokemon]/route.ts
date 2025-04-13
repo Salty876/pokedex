@@ -62,8 +62,8 @@ export async function GET(request: Request) {
 
 
         let holder:type = {
-            name: pokemonData.types[i].name,
-            icon: typeIcons[pokemonData.types[i].name],
+            name: typeData.name,
+            icon: typeIcons[typeData.name],
             weakness: weak,
             strong: strong,
             superStrong: superStrong,
@@ -77,10 +77,9 @@ export async function GET(request: Request) {
 
     // Get the abilities
     let abilityContainer:abilty[] = []
-    for (let i in pokemonData.types.abilities){
+    for (let i in pokemonData.abilities){
         let testAbility:abilty = {
-            name: pokemonData.types.abilities[i].name,
-            hidden: pokemonData.types.abilities[i].is_hidden
+            name: pokemonData.abilities[i].ability.name
         }
 
         abilityContainer.push(testAbility)
@@ -116,7 +115,7 @@ export async function GET(request: Request) {
             break
         }
     }
-    let description:string = s.replace(/\n/g,' ').replace(/\r/g,' ');
+    let description:string = s.replaceAll("\n"," ");
     // Grabbing nickname
     let nickname:string = ""
     for (let i in specData.genera){
