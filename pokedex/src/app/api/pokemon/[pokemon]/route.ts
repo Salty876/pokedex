@@ -1,4 +1,5 @@
-import { abilty, encounter, move, Pokemon, type } from "../../../components/interfaces"
+import { fetchExternalImage } from "next/dist/server/image-optimizer"
+import { abilty, encounter, evolution, move, Pokemon, type } from "../../../components/interfaces"
 import { typeIcons } from "../../../components/interfaces"
 
 
@@ -103,13 +104,55 @@ export async function GET(request: Request) {
         locationContainer.push(fakeEncounter)
     }
 
+    // get the species info (decription, generation, genus)
+    const specInfo = await fetch(pokemonData.species.url)
+    const specData = await specInfo.json()
+
+    // Grabbing descripstion
+    let description:string = ""
+    for (let i in specData.flavor_text_entries){
+        if (specData.flavor_text_entries[i].language.name === "en"){
+            description = specData.flavor_text_entries[i].flavor_text
+            break
+        }
+    }
+
+    // Grabbing nickname
+    let nickname:string = ""
+    for (let i in specData.genera){
+        if (specData.genera[i].language.name === "en"){
+            nickname = specData.genera[i].genus
+            break
+        }
+    }
+
+    // Grabbing evolutions
+    const evolInfo = await fetch(specData.evolution_chain.url)
+    const evolData = await evolInfo.json()
+
+    let evolutionChain:evolution[] = []
+
+    let current = evolData.chain.evolves_to
+    while (current.length != 0){
+        let evolution:evolution = {
+            level: current.evolution_details[0].min_level,
+            name: current.species.name,
+            method: current.evolution_details[0].trigger.name
+        }
+        evolutionChain.push(evolution)
+        current = current.evolves_to
+    }
+    
+
 
     // Add all this info and more to the main pokemon container
     const pokemonFullData:Pokemon = {
         // String data
         sprite: pokemonData.sprites.front_default,
         name: pokemonData.name,
-
+        description: description,
+        generation: specData.generation.name,
+        nickname: nickname,
         // Numerical data
         base_experience: pokemonData.base_experience,
         height: pokemonData.height,
@@ -120,7 +163,8 @@ export async function GET(request: Request) {
         encounters: locationContainer,
         abilities: abilityContainer,
         types: types,
-        moves:moves
+        moves:moves,
+        evolutionChain:evolutionChain
     }
 
     return new Response(JSON.stringify(pokemonFullData),{

@@ -25,7 +25,6 @@ export const typeIcons:Dictionary<string> = {
     "dark": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-v/black-2-white-2/17.png",
     "fairy": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-vii/lets-go-pikachu-lets-go-eevee/18.png",
     "stellar": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-ix/scarlet-violet/19.png"
-
 }
 
 export interface PokemonSmall{
@@ -37,9 +36,11 @@ export interface Pokemon{
     // Strings
     sprite: string;
     name: string;
+    description: string;
+    generation: string;
+    nickname: string;
 
     // Numeric values
-    // generation: number;
     base_experience: number;
     order: number;
     weight: number;
@@ -48,16 +49,19 @@ export interface Pokemon{
     // Collections
     abilities: abilty[];
     moves: move[];
-    types:type[];
+    types: type[];
     encounters:encounter[];
+    evolutionChain: evolution[];
 
 }
 
-export interface evolutions{
+export interface evolution{
     name: string;
-    image: string;
-    url: string;
+    level: number;
+    method: string;
 }
+
+
 
 export interface move{
     name:string;
