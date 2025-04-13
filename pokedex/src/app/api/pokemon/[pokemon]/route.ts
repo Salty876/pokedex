@@ -109,14 +109,14 @@ export async function GET(request: Request) {
     const specData = await specInfo.json()
 
     // Grabbing descripstion
-    let description:string = ""
+    let s:string = ""
     for (let i in specData.flavor_text_entries){
         if (specData.flavor_text_entries[i].language.name === "en"){
-            description = specData.flavor_text_entries[i].flavor_text
+            s = specData.flavor_text_entries[i].flavor_text
             break
         }
     }
-
+    let description:string = s.replace(/\n/g,' ').replace(/\r/g,' ');
     // Grabbing nickname
     let nickname:string = ""
     for (let i in specData.genera){
@@ -127,21 +127,23 @@ export async function GET(request: Request) {
     }
 
     // Grabbing evolutions
-    const evolInfo = await fetch(specData.evolution_chain.url)
-    const evolData = await evolInfo.json()
+    // const evolInfo = await fetch(specData.evolution_chain.url)
+    // const evolData = await evolInfo.json()
 
-    let evolutionChain:evolution[] = []
+    // let evolutionChain:evolution[] = []
+    // let current = evolData.chain.evolves_to
+    // console.log(current.length)
 
-    let current = evolData.chain.evolves_to
-    while (current.length != 0){
-        let evolution:evolution = {
-            level: current.evolution_details[0].min_level,
-            name: current.species.name,
-            method: current.evolution_details[0].trigger.name
-        }
-        evolutionChain.push(evolution)
-        current = current.evolves_to
-    }
+    // while (current){
+    //     let evolution:evolution = {
+    //         level: current.evolution_details[0].min_level,
+    //         name: current.species.name,
+    //         method: current.evolution_details[0].trigger.name
+    //     }
+    //     evolutionChain.push(evolution)
+    //     console.log(current.evolves_to)
+    //     current = current.evolves_to
+    // }
     
 
 
@@ -164,7 +166,7 @@ export async function GET(request: Request) {
         abilities: abilityContainer,
         types: types,
         moves:moves,
-        evolutionChain:evolutionChain
+        // evolutionChain:evolutionChain
     }
 
     return new Response(JSON.stringify(pokemonFullData),{

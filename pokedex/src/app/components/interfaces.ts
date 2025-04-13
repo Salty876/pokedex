@@ -51,7 +51,7 @@ export interface Pokemon{
     moves: move[];
     types: type[];
     encounters:encounter[];
-    evolutionChain: evolution[];
+    // evolutionChain: evolution[];
 
 }
 

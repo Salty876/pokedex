@@ -16,7 +16,7 @@ export default async function Page({params,
         const response = await fetch(`http://localhost:3000/api/pokemon/${pokemon}`,);
         const pokemonData = await response.json();
         console.log(pokemonData)
-
+        console.log(pokemonData.types[0])
 
     
     return (
@@ -43,12 +43,12 @@ export default async function Page({params,
             <p className={styles.pokemonName}>{String(pokemonData.name).charAt(0).toUpperCase() + String(pokemonData.name).slice(1)}</p>
             
             
-            <p className={styles.pokemonDescription}>Description: A Lebron Lover.</p>
+            <p className={styles.pokemonDescription}>{pokemonData.description}</p>
           </div>
           <div className={styles.pokemonInfoMore}>
             <h2 className={styles.pokemonInfoTitle}>Pokedex Info</h2>
             <div className={styles.pokemonId}>#{pokemonData.order}</div>
-            <div className={styles.pokemonType}>Type: Fire</div>
+            <div className={styles.pokemonType}><img src={pokemonData.types[0].icon}></img></div>
             <div className={styles.pokemonHeight}>Height: {pokemonData.height}m</div>
             <div className={styles.pokemonWeight}>Weight: {pokemonData.weight}</div>
             <div className={styles.pokemonAbilities}>Abilities: Blaze, Solar Power</div>
