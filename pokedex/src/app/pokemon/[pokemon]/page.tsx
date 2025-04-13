@@ -2,6 +2,7 @@
 
 import "@/app/globals.css"
 import styles from "./pokemon_page.module.css";
+import { move, Pokemon } from "@/app/components/interfaces";
 
 
 export default async function Page({params,
@@ -57,18 +58,12 @@ export default async function Page({params,
 
             <div className={styles.pokemonInfoMore}>
             <div>
-            <p className={styles.pokemonMovesListTitle}>Moves:</p>
+            <p className={styles.pokemonMovesListTitle}>Moves: </p>
             <ul className={styles.pokemonMovesListItems}>
-              <li className={styles.pokemonMove}>Flamethrower</li>
-              <li className={styles.pokemonMove}>Solar Beam</li>
-              <li className={styles.pokemonMove}>Fire Spin</li>
-              <li className={styles.pokemonMove}>Ember</li>
-              <li className={styles.pokemonMove}>Fire Blast</li>
-              <li className={styles.pokemonMove}>Heat Wave</li>
-              <li className={styles.pokemonMove}>Inferno</li>
-              <li className={styles.pokemonMove}>Overheat</li>
-              <li className={styles.pokemonMove}>Flame Charge</li>
-              </ul>
+                {pokemonData.moves?.map((move: move) => (
+                    <li key={move.level} className={styles.pokemonMove}>{move.level}: {move.name}</li>
+              ))}
+            </ul>
               </div>
             </div>
         </main>
