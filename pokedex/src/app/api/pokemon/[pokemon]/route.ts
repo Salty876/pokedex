@@ -1,5 +1,5 @@
 import { fetchExternalImage } from "next/dist/server/image-optimizer"
-import { abilty, encounter, evolution, move, Pokemon, type } from "../../../components/interfaces"
+import { abilty, encounter, evolution, move, Pokemon, pType, stats } from "../../../components/interfaces"
 import { typeIcons } from "../../../components/interfaces"
 
 
@@ -29,7 +29,7 @@ export async function GET(request: Request) {
     }
 
     // Get the types
-    let types:type[] = []
+    let types:pType[] = []
     for (let i in pokemonData.types){
         // Get advanced info on the types
         const typeInfo = await fetch(`https://pokeapi.co/api/v2/type/${pokemonData.types[i].type.name}`)
@@ -61,7 +61,7 @@ export async function GET(request: Request) {
          }
 
 
-        let holder:type = {
+        let holder:pType = {
             name: typeData.name,
             icon: typeIcons[typeData.name],
             weakness: weak,
@@ -125,6 +125,18 @@ export async function GET(request: Request) {
         }
     }
 
+    // Grabbing stats
+    let stats:stats = {
+        baseHappiness: specData.base_happiness,
+        expRate: specData.growth_rate.name,
+        baseAtk: pokemonData.stats[1].base_stat,
+        baseHp: pokemonData.stats[0].base_stat,
+        baseDef: pokemonData.stats[2].base_stat,
+        baseSpecAtk: pokemonData.stats[3].base_stat,
+        baseSpecDef: pokemonData.stats[4].base_stat,
+        baseSpeed: pokemonData.stats[5].base_stat
+    }
+
     // Grabbing evolutions
     // const evolInfo = await fetch(specData.evolution_chain.url)
     // const evolData = await evolInfo.json()
@@ -159,7 +171,7 @@ export async function GET(request: Request) {
         height: pokemonData.height,
         weight: pokemonData.weight,
         order: pokemonData.order,
-
+        stats: stats,
         // collections
         encounters: locationContainer,
         abilities: abilityContainer,

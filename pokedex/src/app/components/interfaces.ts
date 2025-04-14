@@ -45,11 +45,12 @@ export interface Pokemon{
     order: number;
     weight: number;
     height: number;
+    stats: stats;
 
     // Collections
     abilities: abilty[];
     moves: move[];
-    types: type[];
+    types: pType[];
     encounters:encounter[];
     // evolutionChain: evolution[];
 
@@ -69,7 +70,7 @@ export interface move{
     method:string;
 }
 
-export interface type{
+export interface pType{
     name:string;
     icon:string;
     weakness:string[];
@@ -85,4 +86,16 @@ export interface abilty{
 export interface encounter{
     location:string;
     games:string[];
+}
+
+export interface stats{
+    baseHappiness: number;
+    expRate: string;
+    baseAtk: number;
+    baseSpecAtk: number;
+    baseDef: number;
+    baseSpecDef: number;
+    baseSpeed: number;
+    baseHp: number;
+
 }

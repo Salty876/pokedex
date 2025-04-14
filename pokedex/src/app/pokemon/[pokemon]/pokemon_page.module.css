@@ -116,6 +116,8 @@
   margin-top: 20px;
   padding: 2rem 1rem;
   border-radius: 1rem;
+  overflow: scroll;
+
 }
 
 .pokemonInfoMore > div {
@@ -139,6 +141,9 @@
     width: 100%;
 }
 
+.pokemonMoveContainer{
+
+}
 
 .pokemonMovesListItems {
     list-style-type: None;

@@ -97,7 +97,7 @@ export default async function Page({params,
           {/* moves */}
           <div className={styles.pokemonMoves}>
               {/* Moves by level up */}
-            <div>
+            <div className={styles.pokemonMoveContainer}>
               <h3 className={styles.pokemonMovesListTitle}>Moves by level-up: </h3>
               <ul className={styles.pokemonMovesListItems}>
                   {pokemonData.moves.sort(compare_level)?.map((move: move) => move.method == "level-up" ? (
@@ -152,9 +152,9 @@ export default async function Page({params,
           <div className={styles.pokemonInfoMoreLarge}>
             <h3 className={styles.pokemonMovesListTitle}>Stats: </h3>
             <ul className={styles.pokemonMovesListItems}>
-                {pokemonData.stats?.map((stat: any) => (
+                {/* {pokemonData.stats?.map((stat: any) => (
                     <li key={stat.name} className={styles.pokemonMove}>{stat.name}: {stat.value}</li>
-              ))}
+              ))} */}
             </ul>
           </div>
 
