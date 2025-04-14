@@ -2,7 +2,8 @@
 
 import "@/app/globals.css"
 import styles from "./pokemon_page.module.css";
-import { abilty, encounter, move, Pokemon, type } from "@/app/components/interfaces";
+import { abilty, encounter, move, Pokemon, pType } from "@/app/components/interfaces";
+import { mergeEncountersByGame, compare_level, listOutAbilities } from "@/app/components/functions";
 
 
 export default async function Page({params,
@@ -19,33 +20,11 @@ export default async function Page({params,
     console.log(pokemonData)
     console.log(pokemonData.types)
 
-    function compare_level(a: any, b: any) {
-        if (a.level < b.level) {
-          return -1;
-        }
-      }
+    let abilities:string = listOutAbilities(pokemonData.abilities)
+    console.log(abilities)
 
     
-      function mergeEncountersByGame(encounters: encounter[]) {
-        // dictionary
-        const gameMap = new Map<string, Set<string>>();
       
-        for (const encounter of encounters) {
-          for (const game of encounter.games) {
-            // if game name not in dict add it as a key
-            if (!gameMap.has(game)) {
-              gameMap.set(game, new Set());
-            }
-            // add location as value to key game
-            gameMap.get(game)!.add(encounter.location);
-          }
-        }
-        // return array version
-        return Array.from(gameMap.entries()).map(([game, locations]) => ({
-          game,
-          locations: Array.from(locations), // optional: sorted
-        }));
-      }
     // Merge encounters
     const mergedEncounters = mergeEncountersByGame(pokemonData.encounters);
     console.log(mergedEncounters)
@@ -86,9 +65,7 @@ export default async function Page({params,
             <div className={styles.pokemonHeight}><h4>Height:</h4> {pokemonData.height}m</div>
             <div className={styles.pokemonWeight}><h4>Weight:</h4> {pokemonData.weight}kg</div>
 
-            <div className={styles.pokemonAbilities}><h4>Abilities:</h4> {pokemonData.abilities.map((ability: abilty) => (
-              <p key={ability.name}>{ability.name}</p>
-            ))}</div>
+            <div className={styles.pokemonAbilities}><h4>Abilities:</h4>{abilities}</div>
 
           </div>
 
