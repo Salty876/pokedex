@@ -4,6 +4,7 @@ import "@/app/globals.css"
 import styles from "./pokemon_page.module.css";
 import { abilty, encounter, move, Pokemon, pType } from "@/app/components/interfaces";
 import { mergeEncountersByGame, compare_level, listOutAbilities } from "@/app/components/functions";
+import Link from "next/link";
 
 
 export default async function Page({params,
@@ -36,10 +37,13 @@ export default async function Page({params,
         <main className={styles.main}>
             {/* header */}
           <div className={styles.header}>
+            <Link href="/" style={{ textDecoration: 'none', color: 'white' }}>
             <h2>
               <img src="/pokeball.png" alt="Pokeball" className={styles.logo} />
               Pokédex!
             </h2>
+            </Link>
+            
             
           </div>
 

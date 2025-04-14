@@ -21,7 +21,10 @@
     align-items: center;
     gap: 0.5rem;
     font-size: 1.8rem;
+    text-decoration: none;
   }
+
+
   
   .logo {
     width: 30px;
