@@ -27,17 +27,20 @@ export default async function Page({params,
 
     
       function mergeEncountersByGame(encounters: encounter[]) {
+        // dictionary
         const gameMap = new Map<string, Set<string>>();
       
         for (const encounter of encounters) {
           for (const game of encounter.games) {
+            // if game name not in dict add it as a key
             if (!gameMap.has(game)) {
               gameMap.set(game, new Set());
             }
+            // add location as value to key game
             gameMap.get(game)!.add(encounter.location);
           }
         }
-      
+        // return array version
         return Array.from(gameMap.entries()).map(([game, locations]) => ({
           game,
           locations: Array.from(locations), // optional: sorted
@@ -58,25 +61,21 @@ export default async function Page({params,
               <img src="/pokeball.png" alt="Pokeball" className={styles.logo} />
               Pokédex!
             </h2>
-            {/* <div className={styles.searchContainer}>
-              <input
-                type="text"
-                className={styles.searchBar}
-                placeholder="Search Pokémon..."
-              />
-              <button className={styles.searchButton}>Search</button>
-            </div> */}
+            
           </div>
 
           {/* pokemon info  */}
+
           <div className={styles.pokemonInfo}>
             <img src={pokemonData.sprite} alt={pokemonData.name} className={styles.pokemonSprite}/>
             <p className={styles.pokemonName}>{String(pokemonData.name).charAt(0).toUpperCase() + String(pokemonData.name).slice(1)}</p>
             
             
-            <p className={styles.pokemonDescription}>{pokemonData.description}</p>
+            <h4 className={styles.pokemonDescription}>{pokemonData.description}</h4>
           </div>
 
+
+          {/* pokedex info */}
           <div className={styles.pokemonInfoMore}>
             <h2 className={styles.pokemonInfoTitle}>Pokedex Info</h2>
             <div className={styles.pokemonId}>#{pokemonData.order}</div>
@@ -84,10 +83,10 @@ export default async function Page({params,
               <img src={currType.icon} alt={currType.name} />
               ))}
               </div>
-            <div className={styles.pokemonHeight}>Height: {pokemonData.height}m</div>
-            <div className={styles.pokemonWeight}>Weight: {pokemonData.weight}kg</div>
+            <div className={styles.pokemonHeight}><h4>Height:</h4> {pokemonData.height}m</div>
+            <div className={styles.pokemonWeight}><h4>Weight:</h4> {pokemonData.weight}kg</div>
 
-            <div className={styles.pokemonAbilities}>Abilities: {pokemonData.abilities.map((ability: abilty) => (
+            <div className={styles.pokemonAbilities}><h4>Abilities:</h4> {pokemonData.abilities.map((ability: abilty) => (
               <p key={ability.name}>{ability.name}</p>
             ))}</div>
 
