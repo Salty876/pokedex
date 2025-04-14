@@ -27,17 +27,20 @@ export default async function Page({params,
 
     
       function mergeEncountersByGame(encounters: encounter[]) {
+        // dictionary
         const gameMap = new Map<string, Set<string>>();
       
         for (const encounter of encounters) {
           for (const game of encounter.games) {
+            // if game name not in dict add it as a key
             if (!gameMap.has(game)) {
               gameMap.set(game, new Set());
             }
+            // add location as value to key game
             gameMap.get(game)!.add(encounter.location);
           }
         }
-      
+        // return array version
         return Array.from(gameMap.entries()).map(([game, locations]) => ({
           game,
           locations: Array.from(locations), // optional: sorted
@@ -58,17 +61,11 @@ export default async function Page({params,
               <img src="/pokeball.png" alt="Pokeball" className={styles.logo} />
               Pokédex!
             </h2>
-            {/* <div className={styles.searchContainer}>
-              <input
-                type="text"
-                className={styles.searchBar}
-                placeholder="Search Pokémon..."
-              />
-              <button className={styles.searchButton}>Search</button>
-            </div> */}
+            
           </div>
 
           {/* pokemon info  */}
+          
           <div className={styles.pokemonInfo}>
             <img src={pokemonData.sprite} alt={pokemonData.name} className={styles.pokemonSprite}/>
             <p className={styles.pokemonName}>{String(pokemonData.name).charAt(0).toUpperCase() + String(pokemonData.name).slice(1)}</p>
