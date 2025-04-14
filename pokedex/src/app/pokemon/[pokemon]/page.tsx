@@ -56,7 +56,7 @@ export default async function Page({params,
 
           {/* pokedex info */}
           <div className={styles.pokemonInfoMore}>
-            <h2 className={styles.pokemonInfoTitle}>Pokedex Info</h2>
+            <p className={styles.pokemonInfoTitle}>Pokedex Info</p>
             <div className={styles.pokemonId}>#{pokemonData.order}</div>
             <div className={styles.pokemonType}>{pokemonData.types.map((currType: {icon:string;  name:string}) =>(
               <img src={currType.icon} alt={currType.name} />

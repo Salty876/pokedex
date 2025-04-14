@@ -66,8 +66,8 @@
 }
 
 .pokemonSprite {
-    width: 20%;
-    height: 20%;
+    width: 450px;
+    height: 350px;
     object-fit: cover;
     border-radius: 50%;
     margin-bottom: 1rem;
@@ -124,6 +124,13 @@
 
 }
 
+.pokemonInfoMore > p {
+    margin: 25px 10px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
 .pokemonInfoMore > div {
     flex:1;
     display: flex;
@@ -140,7 +147,9 @@
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
+    
 }
+
 
 .pokemonDescription {
     align-items: center;
@@ -151,9 +160,6 @@
     width: 100%;
 }
 
-.pokemonMoveContainer{
-
-}
 
 .pokemonMovesListItems {
     list-style-type: None;
