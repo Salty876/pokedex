@@ -131,6 +131,7 @@
 .pokemonMoves > div{
   flex:1;
   min-width: 300px;
+  max-height: 300px;
   gap: 1rem;
   padding: 1rem 2rem;
   border-radius: 1rem;
