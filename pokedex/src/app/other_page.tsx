@@ -3,11 +3,14 @@
 import Link from "next/link";
 import { useState } from "react";
 import styles from "./page.module.css";
+import { Pokemon } from "./components/interfaces";
 
-export default function ClientPokedex({ initialData }) {
+
+
+export default function ClientPokedex({ initialData }: { initialData: Pokemon[] }) {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredPokemon = initialData.filter((pokemon) =>
+  const filteredPokemon = initialData.filter((pokemon: Pokemon) =>
     pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -36,7 +39,7 @@ export default function ClientPokedex({ initialData }) {
       </div>
 
       <div className={styles.pokemonList}>
-        {filteredPokemon.map((pokemon, index) =>
+        {filteredPokemon.map((pokemon: Pokemon, index: number) =>
           pokemon.sprite ? (
             <Link
               key={index}

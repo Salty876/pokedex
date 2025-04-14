@@ -2,24 +2,54 @@
 
 import "@/app/globals.css"
 import styles from "./pokemon_page.module.css";
-import { move, Pokemon } from "@/app/components/interfaces";
+import { abilty, encounter, move, Pokemon, type } from "@/app/components/interfaces";
 
 
 export default async function Page({params,
-          }: {
-        params: Promise<{ pokemon: string }>
-         }){
+      }: {
+    params: Promise<{ pokemon: string }>
+      }){
+
+  
+    const { pokemon } = await params
+
+
+    const response = await fetch(`http://localhost:3000/api/pokemon/${pokemon}`,);
+    const pokemonData = await response.json();
+    console.log(pokemonData)
+    console.log(pokemonData.types)
+
+    function compare_level(a: any, b: any) {
+        if (a.level < b.level) {
+          return -1;
+        }
+      }
+
     
+      function mergeEncountersByGame(encounters: encounter[]) {
+        const gameMap = new Map<string, Set<string>>();
       
-        const { pokemon } = await params
+        for (const encounter of encounters) {
+          for (const game of encounter.games) {
+            if (!gameMap.has(game)) {
+              gameMap.set(game, new Set());
+            }
+            gameMap.get(game)!.add(encounter.location);
+          }
+        }
+      
+        return Array.from(gameMap.entries()).map(([game, locations]) => ({
+          game,
+          locations: Array.from(locations), // optional: sorted
+        }));
+      }
+    // Merge encounters
+    const mergedEncounters = mergeEncountersByGame(pokemonData.encounters);
+    console.log(mergedEncounters)
 
-
-        const response = await fetch(`http://localhost:3000/api/pokemon/${pokemon}`,);
-        const pokemonData = await response.json();
-        console.log(pokemonData)
-        console.log(pokemonData.types)
 
     
+
     return (
         <main className={styles.main}>
             {/* header */}
@@ -46,33 +76,89 @@ export default async function Page({params,
             
             <p className={styles.pokemonDescription}>{pokemonData.description}</p>
           </div>
+
           <div className={styles.pokemonInfoMore}>
             <h2 className={styles.pokemonInfoTitle}>Pokedex Info</h2>
             <div className={styles.pokemonId}>#{pokemonData.order}</div>
-            <div className={styles.pokemonType}><img src={pokemonData.types[0].icon}></img></div>
+            <div className={styles.pokemonType}>{pokemonData.types.map((currType: {icon:string;  name:string}) =>(
+              <img src={currType.icon} alt={currType.name} />
+              ))}
+              </div>
             <div className={styles.pokemonHeight}>Height: {pokemonData.height}m</div>
             <div className={styles.pokemonWeight}>Weight: {pokemonData.weight}kg</div>
 
-            <div className={styles.pokemonAbilities}>Abilities: {pokemonData.abilities.map((ability) => (
+            <div className={styles.pokemonAbilities}>Abilities: {pokemonData.abilities.map((ability: abilty) => (
               <p key={ability.name}>{ability.name}</p>
             ))}</div>
 
-           </div>
+          </div>
 
 
-            <div className={styles.pokemonInfoMore}>
+          {/* moves */}
+          <div className={styles.pokemonMoves}>
+              {/* Moves by level up */}
             <div>
-            <p className={styles.pokemonMovesListTitle}>Moves: </p>
+              <h3 className={styles.pokemonMovesListTitle}>Moves by level-up: </h3>
+              <ul className={styles.pokemonMovesListItems}>
+                  {pokemonData.moves.sort(compare_level)?.map((move: move) => move.method == "level-up" ? (
+                      <li key={move.level} className={styles.pokemonMove}>{move.level} | {move.name}</li>
+                ): null)}
+              </ul>
+            </div>
+
+            {/* Moves by tutor */}
+            <div>
+              <h3 className={styles.pokemonMovesListTitle}>Moves by Tutor: </h3>
+              <ul className={styles.pokemonMovesListItems}>
+                  {pokemonData.moves?.map((move: move) => move.method == "tutor" ? (
+                      <li key={move.level} className={styles.pokemonMove}>{move.name}</li>
+                ): null)}
+              </ul>
+            </div>
+            {/* Moves by TM */}
+            <div>
+              <h3 className={styles.pokemonMovesListTitle}>Moves by TM/HM: </h3>
+              <ul className={styles.pokemonMovesListItems}>
+                  {pokemonData.moves?.map((move: move) => move.method == "machine" ? (
+                      <li key={move.level} className={styles.pokemonMove}>{move.name}</li>
+                ): null)}
+              </ul>
+            </div>
+            
+            {/* Moves bt ehh */}
+            <div>
+              <h3 className={styles.pokemonMovesListTitle}>Moves by egg: </h3>
+              <ul className={styles.pokemonMovesListItems}>
+                  {pokemonData.moves?.map((move: move) => move.method == "egg" ? (
+                      <li key={move.level} className={styles.pokemonMove}>{move.name}</li>
+                ): null)}
+              </ul>
+            </div>
+
+
+          </div>
+
+
+          {/* Encounters */}
+          <div className={styles.pokemonInfoMoreLarge}>
+            <h3 className={styles.pokemonMovesListTitle}>Encounters: </h3>
             <ul className={styles.pokemonMovesListItems}>
-                {pokemonData.moves?.map((move: move) => (
-                    <li key={move.level} className={styles.pokemonMove}>{move.level}: {move.name}</li>
+                {mergedEncounters?.map((encounter: any) => (
+                    <li key={encounter.game} className={styles.pokemonMove}>{encounter.game}: {encounter.locations.join(", ")}<hr></hr></li>
               ))}
             </ul>
-              </div>
-            </div>
+          </div>
+
+          <div className={styles.pokemonInfoMoreLarge}>
+            <h3 className={styles.pokemonMovesListTitle}>Stats: </h3>
+            <ul className={styles.pokemonMovesListItems}>
+                {pokemonData.stats?.map((stat: any) => (
+                    <li key={stat.name} className={styles.pokemonMove}>{stat.name}: {stat.value}</li>
+              ))}
+            </ul>
+          </div>
+
         </main>
       );
 
-}
-
-
+}   
