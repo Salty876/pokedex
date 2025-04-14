@@ -80,8 +80,15 @@
     margin-bottom: 1rem;
 }
 
+.pokemonInfoMore > h2 {
+    margin-top: 80px;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
 .pokemonInfoMore {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     padding: 2rem;
     margin-top: 20px;
@@ -127,13 +134,18 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.pokemonInfoMore > div > h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
 .pokemonDescription {
-    align-items: left;
-    justify-content: left;
-    text-align: left;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     padding: 1rem;
     border-radius: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
 }
 

@@ -65,15 +65,17 @@ export default async function Page({params,
           </div>
 
           {/* pokemon info  */}
-          
+
           <div className={styles.pokemonInfo}>
             <img src={pokemonData.sprite} alt={pokemonData.name} className={styles.pokemonSprite}/>
             <p className={styles.pokemonName}>{String(pokemonData.name).charAt(0).toUpperCase() + String(pokemonData.name).slice(1)}</p>
             
             
-            <p className={styles.pokemonDescription}>{pokemonData.description}</p>
+            <h4 className={styles.pokemonDescription}>{pokemonData.description}</h4>
           </div>
 
+
+          {/* pokedex info */}
           <div className={styles.pokemonInfoMore}>
             <h2 className={styles.pokemonInfoTitle}>Pokedex Info</h2>
             <div className={styles.pokemonId}>#{pokemonData.order}</div>
@@ -81,10 +83,10 @@ export default async function Page({params,
               <img src={currType.icon} alt={currType.name} />
               ))}
               </div>
-            <div className={styles.pokemonHeight}>Height: {pokemonData.height}m</div>
-            <div className={styles.pokemonWeight}>Weight: {pokemonData.weight}kg</div>
+            <div className={styles.pokemonHeight}><h4>Height:</h4> {pokemonData.height}m</div>
+            <div className={styles.pokemonWeight}><h4>Weight:</h4> {pokemonData.weight}kg</div>
 
-            <div className={styles.pokemonAbilities}>Abilities: {pokemonData.abilities.map((ability: abilty) => (
+            <div className={styles.pokemonAbilities}><h4>Abilities:</h4> {pokemonData.abilities.map((ability: abilty) => (
               <p key={ability.name}>{ability.name}</p>
             ))}</div>
 
