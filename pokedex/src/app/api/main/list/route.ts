@@ -1,4 +1,4 @@
-import { PokemonSmall } from '../../useful/interfaces'
+import { PokemonSmall } from '../../../useful/interfaces'
 
 export async function GET(request: Request) {
     //fetch data from 
