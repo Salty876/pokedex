@@ -60,10 +60,10 @@ export default async function Page({params,
 
 
           {/* pokedex info */}
+          <h2 className={styles.boxTitles}>Pokedex Info: </h2>
           <div className={styles.pokemonInfoMore}>
-            <p className={styles.pokemonInfoTitle}>Pokedex Info</p>
             <div className={styles.pokemonId}>#{pokemonData.order}</div>
-            <div className={styles.pokemonType}>{pokemonData.types.map((currType: {icon:string;  name:string}) =>(
+            <div className={styles.pokemonType}>{pokemonData.types.map((currType: pType) =>(
               <img className={styles.typeImage} src={currType.icon} alt={currType.name} />
               ))}
               </div>
@@ -130,13 +130,15 @@ export default async function Page({params,
             </ul>
           </div>
 
-          <div className={styles.pokemonInfoMoreLarge}>
-            <h3 className={styles.pokemonMovesListTitle}>Stats: </h3>
-            <ul className={styles.pokemonMovesListItems}>
-                {/* {pokemonData.stats?.map((stat: any) => (
-                    <li key={stat.name} className={styles.pokemonMove}>{stat.name}: {stat.value}</li>
-              ))} */}
-            </ul>
+        <h2 className={styles.boxTitles}>Stats: </h2>
+          <div className={styles.statsContainer}>
+            <div className={styles.stats}>HP: {pokemonData.stats.baseHp}</div>
+            <div className={styles.stats}>Attack: {pokemonData.stats.baseAtk}</div>
+            <div className={styles.stats}>Defense: {pokemonData.stats.baseDef}</div>
+            <div className={styles.stats}>Special Attack: {pokemonData.stats.baseSpecAtk}</div>
+            <div className={styles.stats}>Special Defense: {pokemonData.stats.baseSpecDef}</div>
+            <div className={styles.stats}>Speed: {pokemonData.stats.baseSpeed}</div>
+            <div className={styles.stats}>Base Happiness: {pokemonData.stats.baseHappiness}</div>
           </div>
 
         </main>
