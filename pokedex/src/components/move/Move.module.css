@@ -1,0 +1,24 @@
+
+.bubble{
+    width: 50%;
+    background-color: #454545;
+    margin: 0px 4px;
+    padding: 0px 6px;
+    border-radius: 10px;
+
+}
+
+.container{
+    display: flex;
+}
+
+.text{
+    font-size: 0.85rem;
+}
+
+.row{
+    display: flex;
+    width: 100%;
+    margin-bottom: 6px;
+
+}

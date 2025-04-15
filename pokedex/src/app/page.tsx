@@ -1,35 +1,42 @@
-'use client'; 
-
+"use client"
 import Link from "next/link";
-import { useState, useEffect } from "react";
 import "./globals.css";
 import styles from "./page.module.css";
+import React, {useState, useEffect} from 'react'
 
-export default function Page() {
-  const [allPokemon, setAllPokemon] = useState([]);
-  const [filteredPokemon, setFilteredPokemon] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+export default  function Page() {
+  const [pokeData, setData] = useState(null)
+  const [isLoading, setLoading] = useState(true)
 
-  // fetch data without needing to use async
+  const [searchTerm, setSearchInput] = useState("");
+
+  // Event handler for search bar
+  const handleChange = (e:Event) => {
+    e.preventDefault()
+    setSearchInput(e.target.value)
+  }
+
   useEffect(() => {
-    const fetchPokemon = async () => {
-      const response = await fetch("http://localhost:3001/api/list");
-      const data = await response.json();
-      setAllPokemon(data);
-      setFilteredPokemon(data);
-    };
-    fetchPokemon();
-  });
+    fetch('http://localhost:3000/api/list', {cache:"force-cache"})
+      .then((res) => res.json())
+      .then((pokeData) => {
+        setData(pokeData)
+        setLoading(false)
+      })
+  }, [])
+  if (isLoading) return <p>Loading...</p>
+  if (!pokeData) return <p>No pokemon data</p>
 
-  // filter pokemn based on search term
-  useEffect(() => {
-    const filtered = allPokemon.filter(pokemon =>
-      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredPokemon(filtered);
-  }, [searchTerm, allPokemon]);
+  let data = pokeData;
 
+  if (searchTerm.length > 0){
+    data = pokeData.filter(p => typeof p.name === "string" && p.name.includes(searchTerm) === true)
+  } else{
+    data = pokeData;
+
+  }
   return (
+
     <main className={styles.main}>
       <div className={styles.header}>
         <h2>
@@ -42,24 +49,19 @@ export default function Page() {
             className={styles.searchBar}
             placeholder="Search Pokémon..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={handleChange}
           />
-          <button 
-            className={styles.searchButton}
-            onClick={() => setSearchTerm("")} // Clear search
-          >
-            {searchTerm ? "Clear" : "Search"}
-          </button>
+
         </div>
       </div>
 
       <div className={styles.pokemonList}>
-        {filteredPokemon.map((pokemon, index) =>
+        {data.map((pokemon, index) =>
         // check if sprite exists before rendering
           pokemon.sprite ? (
             <Link key={index} className={styles.pokemonCard} href={{
-              pathname: `/pokemon/${pokemon.name}`,
-              query: { sprite: pokemon.sprite , name: pokemon.name }
+              pathname: `/pokemon/${pokemon.name}`
+              
             }}>
               <img 
                 src={pokemon.sprite} 

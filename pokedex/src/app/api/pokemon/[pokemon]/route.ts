@@ -1,5 +1,6 @@
-import { abilty, encounter, move, Pokemon, type } from "../../../components/interfaces"
-import { typeIcons } from "../../../components/interfaces"
+import { fetchExternalImage } from "next/dist/server/image-optimizer"
+import { abilty, encounter, evolution, move, Pokemon, pType, stats } from "../../../useful/interfaces"
+import { typeIcons } from "../../../useful/interfaces"
 
 
 export async function GET(request: Request) {
@@ -9,7 +10,7 @@ export async function GET(request: Request) {
 
     const pokemon = arrayPath[5]
 
-    const info = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+    const info = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`,{cache:"force-cache"})
     const pokemonData = await info.json()
 
     let moves:move[] = []
@@ -28,7 +29,7 @@ export async function GET(request: Request) {
     }
 
     // Get the types
-    let types:type[] = []
+    let types:pType[] = []
     for (let i in pokemonData.types){
         // Get advanced info on the types
         const typeInfo = await fetch(`https://pokeapi.co/api/v2/type/${pokemonData.types[i].type.name}`)
@@ -60,9 +61,9 @@ export async function GET(request: Request) {
          }
 
 
-        let holder:type = {
-            name: pokemonData.types[i].name,
-            icon: typeIcons[pokemonData.types[i].name],
+        let holder:pType = {
+            name: typeData.name,
+            icon: typeIcons[typeData.name],
             weakness: weak,
             strong: strong,
             superStrong: superStrong,
@@ -76,10 +77,9 @@ export async function GET(request: Request) {
 
     // Get the abilities
     let abilityContainer:abilty[] = []
-    for (let i in pokemonData.types.abilities){
+    for (let i in pokemonData.abilities){
         let testAbility:abilty = {
-            name: pokemonData.types.abilities[i].name,
-            hidden: pokemonData.types.abilities[i].is_hidden
+            name: pokemonData.abilities[i].ability.name
         }
 
         abilityContainer.push(testAbility)
@@ -103,24 +103,81 @@ export async function GET(request: Request) {
         locationContainer.push(fakeEncounter)
     }
 
+    // get the species info (decription, generation, genus)
+    const specInfo = await fetch(pokemonData.species.url)
+    const specData = await specInfo.json()
+
+    // Grabbing descripstion
+    let s:string = ""
+    for (let i in specData.flavor_text_entries){
+        if (specData.flavor_text_entries[i].language.name === "en"){
+            s = specData.flavor_text_entries[i].flavor_text
+            break
+        }
+    }
+    let description:string = s.replaceAll("\n"," ");
+    // Grabbing nickname
+    let nickname:string = ""
+    for (let i in specData.genera){
+        if (specData.genera[i].language.name === "en"){
+            nickname = specData.genera[i].genus
+            break
+        }
+    }
+
+    // Grabbing stats
+    let stats:stats = {
+        baseHappiness: specData.base_happiness,
+        expRate: specData.growth_rate.name,
+        baseAtk: pokemonData.stats[1].base_stat,
+        baseHp: pokemonData.stats[0].base_stat,
+        baseDef: pokemonData.stats[2].base_stat,
+        baseSpecAtk: pokemonData.stats[3].base_stat,
+        baseSpecDef: pokemonData.stats[4].base_stat,
+        baseSpeed: pokemonData.stats[5].base_stat
+    }
+
+    // Grabbing evolutions
+    // const evolInfo = await fetch(specData.evolution_chain.url)
+    // const evolData = await evolInfo.json()
+
+    // let evolutionChain:evolution[] = []
+    // let current = evolData.chain.evolves_to
+    // console.log(current.length)
+
+    // while (current){
+    //     let evolution:evolution = {
+    //         level: current.evolution_details[0].min_level,
+    //         name: current.species.name,
+    //         method: current.evolution_details[0].trigger.name
+    //     }
+    //     evolutionChain.push(evolution)
+    //     console.log(current.evolves_to)
+    //     current = current.evolves_to
+    // }
+    
+
 
     // Add all this info and more to the main pokemon container
     const pokemonFullData:Pokemon = {
         // String data
         sprite: pokemonData.sprites.front_default,
         name: pokemonData.name,
-
+        description: description,
+        generation: specData.generation.name,
+        nickname: nickname,
         // Numerical data
         base_experience: pokemonData.base_experience,
         height: pokemonData.height,
         weight: pokemonData.weight,
         order: pokemonData.order,
-
+        stats: stats,
         // collections
         encounters: locationContainer,
         abilities: abilityContainer,
         types: types,
-        moves:moves
+        moves:moves,
+        // evolutionChain:evolutionChain
     }
 
     return new Response(JSON.stringify(pokemonFullData),{
