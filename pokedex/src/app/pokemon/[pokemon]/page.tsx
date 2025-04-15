@@ -31,16 +31,33 @@ export default async function Page({params,
     const mergedEncounters = mergeEncountersByGame(pokemonData.encounters);
     console.log(mergedEncounters)
 
-    function getColor(value:number) {
+    function getColor(value:number): [string, number, string] {
         const max = 150; 
         const ratio = Math.min(value / max, 1);
 
         const hue = ratio * 120;
 
-        return `hsl(${hue}, 80%, 60%)`;
+        return [
+          `hsl(${hue}, 80%, 60%)`,  // primary color (e.g., greenish)
+          ratio,                    // ratio for filling
+          `hsl(${hue}, 60%, 40%)`   // secondary color (e.g., darker shade for fading effect)
+        ];
 
     }
 
+
+    const statsVals: Record<string, [string, number, string]> = {};
+
+    for (const [key, value] of Object.entries(pokemonData.stats)) {
+      if (typeof value === 'number') {
+        // console.log(key, value);
+        statsVals[key] = getColor(value);
+        statsVals[key][1] *= 100;
+        statsVals[key][1] = Math.round(statsVals[key][1]);
+        console.log(statsVals[key]);
+      }
+    }
+    console.log(statsVals.baseHp[0]);
     return (
         <main className={styles.main}>
             {/* header */}
@@ -141,12 +158,29 @@ export default async function Page({params,
 
         <h2 className={styles.boxTitles}>Stats: </h2>
           <div className={styles.statsContainer}>
-            <div className={styles.stats} style={{backgroundColor: getColor(pokemonData.stats.baseHp)}}>HP: {pokemonData.stats.baseHp}</div>
-            <div className={styles.stats} style={{backgroundColor: getColor(pokemonData.stats.baseAtk)}}>Attack: {pokemonData.stats.baseAtk}</div>
-            <div className={styles.stats} style={{backgroundColor: getColor(pokemonData.stats.baseDef)}}>Defense: {pokemonData.stats.baseDef}</div>
-            <div className={styles.stats} style={{backgroundColor: getColor(pokemonData.stats.baseSpecAtk)}}>Special Attack: {pokemonData.stats.baseSpecAtk}</div>
-            <div className={styles.stats} style={{backgroundColor: getColor(pokemonData.stats.baseSpecDef)}}>Special Defense: {pokemonData.stats.baseSpecDef}</div>
-            <div className={styles.stats} style={{backgroundColor: getColor(pokemonData.stats.baseSpeed)}}>Speed: {pokemonData.stats.baseSpeed}</div>
+          <div className={styles.stats} style={{ backgroundImage: `linear-gradient(to top, ${statsVals.baseHp[0]} 0 ${statsVals.baseHp[1]}%, ${statsVals.baseHp[2]} ${statsVals.baseHp[1]}% 100%)`
+            }}>
+            <p>HP: {pokemonData.stats.baseHp}</p>
+          </div>
+          <div className={styles.stats} style={{ backgroundImage: `linear-gradient(to top, ${statsVals.baseAtk[0]} 0 ${statsVals.baseAtk[1]}%, ${statsVals.baseAtk[2]} ${statsVals.baseAtk[1]}% 100%)` }}>
+            <p>Attack: {pokemonData.stats.baseAtk}</p>
+          </div>
+          <div className={styles.stats} style={{ backgroundImage: `linear-gradient(to top, ${statsVals.baseDef[0]} 0 ${statsVals.baseDef[1]}%, ${statsVals.baseDef[2]} ${statsVals.baseDef[1]}% 100%)` }}>
+            <p>Defense: {pokemonData.stats.baseDef}</p>
+          </div>
+          <div className={styles.stats} style={{ backgroundImage: `linear-gradient(to top, ${statsVals.baseSpecAtk[0]} 0 ${statsVals.baseSpecAtk[1]}%, ${statsVals.baseSpecAtk[2]} ${statsVals.baseSpecAtk[1]}% 100%)` }}>
+            <p>Special Attack: {pokemonData.stats.baseSpecAtk}</p>
+          </div>
+          <div className={styles.stats} style={{ backgroundImage: `linear-gradient(to top, ${statsVals.baseSpecDef[0]} 0 ${statsVals.baseSpecDef[1]}%, ${statsVals.baseSpecDef[2]} ${statsVals.baseSpecDef[1]}% 100%)` }}>
+            <p>Special Defense: {pokemonData.stats.baseSpecDef}</p>
+          </div>
+          <div className={styles.stats} style={{ backgroundImage: `linear-gradient(to top, ${statsVals.baseSpeed[0]} 0 ${statsVals.baseSpeed[1]}%, ${statsVals.baseSpeed[2]} ${statsVals.baseSpeed[1]}% 100%)` }}>
+            <p>Speed: {pokemonData.stats.baseSpeed}</p>
+          </div>
+          <div className={styles.stats} style={{ backgroundImage: `linear-gradient(to top, ${statsVals.baseHappiness[0]} 0 ${statsVals.baseHappiness[1]}%, ${statsVals.baseHappiness[2]} ${statsVals.baseHappiness[1]}% 100%)` }}>
+            <p>Base Hapiness: {pokemonData.stats.baseHappiness}</p>
+          </div>
+
           </div>
 
         </main>

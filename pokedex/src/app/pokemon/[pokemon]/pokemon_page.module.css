@@ -188,17 +188,20 @@
 
 .stats {
     flex:1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 150px;
     min-width: 150px;
     text-align: center;
     gap: 1rem;
     padding: 1rem 2rem;
     border-radius: 1rem;
-    vertical-align: middle;
-    line-height: 150px;
-    max-height: 30vh;
 }
 
+.stats > p {
+    color: #1b1b1b;
+}
 
 .pokemonMovesListItems {
     list-style-type: None;
