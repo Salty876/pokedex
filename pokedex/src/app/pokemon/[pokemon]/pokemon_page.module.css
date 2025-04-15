@@ -1,3 +1,5 @@
+
+
 .main {
     min-height: 100vh;
   }
@@ -99,6 +101,12 @@
     border-radius: 1rem;
 }
 
+.typeImage{
+  width: 60%;
+  height: auto;
+  margin: 5px 0px;
+}
+
 .pokemonInfoMoreLarge {
     gap: 1rem;
     padding: 1%;
@@ -115,16 +123,24 @@
     margin-top: 20px;
     padding: 2rem 1rem;
     border-radius: 1rem;
+    overflow: hidden;
+    max-height: 30vh;
+
 }
 
-.pokemonMoves > div {
+.pokemonMoves > div{
   flex:1;
   min-width: 300px;
   gap: 1rem;
   padding: 1rem 2rem;
   border-radius: 1rem;
-  overflow: scroll;
+  overflow: auto;
+  max-height: 30vh;
 
+}
+
+.pokemonMoves > :last-child{
+  padding-bottom: 2em;
 }
 
 .pokemonInfoMore > div {

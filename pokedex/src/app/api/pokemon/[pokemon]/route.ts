@@ -1,6 +1,6 @@
 import { fetchExternalImage } from "next/dist/server/image-optimizer"
-import { abilty, encounter, evolution, move, Pokemon, pType, stats } from "../../../components/interfaces"
-import { typeIcons } from "../../../components/interfaces"
+import { abilty, encounter, evolution, move, Pokemon, pType, stats } from "../../../useful/interfaces"
+import { typeIcons } from "../../../useful/interfaces"
 
 
 export async function GET(request: Request) {

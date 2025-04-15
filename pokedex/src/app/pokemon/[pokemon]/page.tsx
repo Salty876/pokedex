@@ -2,9 +2,10 @@
 
 import "@/app/globals.css"
 import styles from "./pokemon_page.module.css";
-import { abilty, encounter, move, Pokemon, pType } from "@/app/components/interfaces";
-import { mergeEncountersByGame, compare_level, listOutAbilities } from "@/app/components/functions";
+import { abilty, encounter, move, Pokemon, pType } from "@/app/useful/interfaces";
+import { mergeEncountersByGame, compare_level, listOutAbilities } from "@/app/useful/functions";
 import Link from "next/link";
+import Move from "../../../components/move/Move"
 
 
 export default async function Page({params,
@@ -63,7 +64,7 @@ export default async function Page({params,
             <h2 className={styles.pokemonInfoTitle}>Pokedex Info</h2>
             <div className={styles.pokemonId}>#{pokemonData.order}</div>
             <div className={styles.pokemonType}>{pokemonData.types.map((currType: {icon:string;  name:string}) =>(
-              <img src={currType.icon} alt={currType.name} />
+              <img className={styles.typeImage} src={currType.icon} alt={currType.name} />
               ))}
               </div>
             <div className={styles.pokemonHeight}><h4>Height:</h4> {pokemonData.height}m</div>
@@ -81,7 +82,7 @@ export default async function Page({params,
               <h3 className={styles.pokemonMovesListTitle}>Moves by level-up: </h3>
               <ul className={styles.pokemonMovesListItems}>
                   {pokemonData.moves.sort(compare_level)?.map((move: move) => move.method == "level-up" ? (
-                      <li key={move.level} className={styles.pokemonMove}>{move.level} | {move.name}</li>
+                      <Move level={move.level} name={move.name}></Move>
                 ): null)}
               </ul>
             </div>
@@ -91,7 +92,7 @@ export default async function Page({params,
               <h3 className={styles.pokemonMovesListTitle}>Moves by Tutor: </h3>
               <ul className={styles.pokemonMovesListItems}>
                   {pokemonData.moves?.map((move: move) => move.method == "tutor" ? (
-                      <li key={move.level} className={styles.pokemonMove}>{move.name}</li>
+                      <Move level={move.level} name={move.name}></Move>
                 ): null)}
               </ul>
             </div>
@@ -100,17 +101,17 @@ export default async function Page({params,
               <h3 className={styles.pokemonMovesListTitle}>Moves by TM/HM: </h3>
               <ul className={styles.pokemonMovesListItems}>
                   {pokemonData.moves?.map((move: move) => move.method == "machine" ? (
-                      <li key={move.level} className={styles.pokemonMove}>{move.name}</li>
+                      <Move level={move.level} name={move.name}></Move>
                 ): null)}
               </ul>
             </div>
             
-            {/* Moves bt ehh */}
+            {/* Moves bt egg */}
             <div>
               <h3 className={styles.pokemonMovesListTitle}>Moves by egg: </h3>
               <ul className={styles.pokemonMovesListItems}>
                   {pokemonData.moves?.map((move: move) => move.method == "egg" ? (
-                      <li key={move.level} className={styles.pokemonMove}>{move.name}</li>
+                      <Move level={move.level} name={move.name}></Move>
                 ): null)}
               </ul>
             </div>
