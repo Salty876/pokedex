@@ -31,8 +31,15 @@ export default async function Page({params,
     const mergedEncounters = mergeEncountersByGame(pokemonData.encounters);
     console.log(mergedEncounters)
 
+    function getColor(value:number) {
+        const max = 150; 
+        const ratio = Math.min(value / max, 1);
 
-    
+        const hue = ratio * 120;
+
+        return `hsl(${hue}, 80%, 60%)`;
+
+    }
 
     return (
         <main className={styles.main}>
@@ -134,13 +141,12 @@ export default async function Page({params,
 
         <h2 className={styles.boxTitles}>Stats: </h2>
           <div className={styles.statsContainer}>
-            <div className={styles.stats}>HP: {pokemonData.stats.baseHp}</div>
-            <div className={styles.stats}>Attack: {pokemonData.stats.baseAtk}</div>
-            <div className={styles.stats}>Defense: {pokemonData.stats.baseDef}</div>
-            <div className={styles.stats}>Special Attack: {pokemonData.stats.baseSpecAtk}</div>
-            <div className={styles.stats}>Special Defense: {pokemonData.stats.baseSpecDef}</div>
-            <div className={styles.stats}>Speed: {pokemonData.stats.baseSpeed}</div>
-            <div className={styles.stats}>Base Happiness: {pokemonData.stats.baseHappiness}</div>
+            <div className={styles.stats} style={{backgroundColor: getColor(pokemonData.stats.baseHp)}}>HP: {pokemonData.stats.baseHp}</div>
+            <div className={styles.stats} style={{backgroundColor: getColor(pokemonData.stats.baseAtk)}}>Attack: {pokemonData.stats.baseAtk}</div>
+            <div className={styles.stats} style={{backgroundColor: getColor(pokemonData.stats.baseDef)}}>Defense: {pokemonData.stats.baseDef}</div>
+            <div className={styles.stats} style={{backgroundColor: getColor(pokemonData.stats.baseSpecAtk)}}>Special Attack: {pokemonData.stats.baseSpecAtk}</div>
+            <div className={styles.stats} style={{backgroundColor: getColor(pokemonData.stats.baseSpecDef)}}>Special Defense: {pokemonData.stats.baseSpecDef}</div>
+            <div className={styles.stats} style={{backgroundColor: getColor(pokemonData.stats.baseSpeed)}}>Speed: {pokemonData.stats.baseSpeed}</div>
           </div>
 
         </main>
