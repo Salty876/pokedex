@@ -76,6 +76,8 @@ export default async function Page({params,
 
 
           {/* moves */}
+          <h2 className={styles.boxTitles}>Moves: </h2>
+
           <div className={styles.pokemonMoves}>
               {/* Moves by level up */}
             <div className={styles.pokemonMoveContainer}>
@@ -121,8 +123,8 @@ export default async function Page({params,
 
 
           {/* Encounters */}
+          <h2 className={styles.boxTitles}>Encounters: </h2>
           <div className={styles.pokemonInfoMoreLarge}>
-            <h3 className={styles.pokemonMovesListTitle}>Encounters: </h3>
             <ul className={styles.pokemonMovesListItems}>
                 {mergedEncounters?.map((encounter: any) => (
                     <li key={encounter.game} className={styles.pokemonMove}>{encounter.game}: {encounter.locations.join(", ")}<hr></hr></li>
