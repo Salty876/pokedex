@@ -17,7 +17,9 @@ export default async function Page({params,
     const { pokemon } = await params
 
 
-    const response = await fetch(`https://pokedex-five-tan-79.vercel.app/api/pokemon/${pokemon}`,);
+    const response = await fetch(`${process.env.API_HOST}api/pokemon/${pokemon}`, {headers: {
+      "Access-Control-Allow-Origin" : "*" 
+    }});
     const pokemonData = await response.json();
     console.log(pokemonData)
     console.log(pokemonData.types)

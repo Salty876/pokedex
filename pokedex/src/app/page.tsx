@@ -20,7 +20,7 @@ export default  function Page() {
   }
 
   useEffect(() => {
-    fetch('https://pokedex-five-tan-79.vercel.app/api/list', {cache:"force-cache"})
+    fetch(`${process.env.API_HOST}api/list`, {cache:"force-cache"}, )
       .then((res) => res.json())
       .then((pokeData) => {
         setData(pokeData)
