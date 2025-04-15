@@ -1,11 +1,13 @@
 
 
 .main {
-    min-height: 100vh;
+    min-height: 100%;
+
   }
   
 .header {
     background: #ee1515;
+    width: 100%;
     padding: 1rem 2rem;
     display: flex;
     flex-wrap: wrap;

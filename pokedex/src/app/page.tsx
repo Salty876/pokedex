@@ -3,17 +3,20 @@ import Link from "next/link";
 import "./globals.css";
 import styles from "./page.module.css";
 import React, {useState, useEffect} from 'react'
+import { Pokemon } from "./useful/interfaces"
 
 export default  function Page() {
-  const [pokeData, setData] = useState(null)
+  const [pokeData, setData] = useState<any[]>([])
   const [isLoading, setLoading] = useState(true)
 
   const [searchTerm, setSearchInput] = useState("");
 
   // Event handler for search bar
-  const handleChange = (e:Event) => {
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
-    setSearchInput(e.target.value)
+    if (e.target === null){return}
+    const element = e.target as HTMLInputElement;
+    setSearchInput((element).value)
   }
 
   useEffect(() => {
