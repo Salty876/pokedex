@@ -20,7 +20,7 @@ export default  function Page() {
   }
 
   useEffect(() => {
-    fetch(`${process.env.API_HOST}api/main/list`, {cache:"force-cache"}, )
+    fetch(`/api/main/list`, {cache:"force-cache"}, )
       .then((res) => res.json())
       .then((pokeData) => {
         setData(pokeData)

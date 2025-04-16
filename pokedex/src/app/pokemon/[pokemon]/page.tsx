@@ -17,7 +17,7 @@ export default async function Page({params,
     const { pokemon } = await params
 
 
-    const response = await fetch(`${process.env.API_HOST}api/pokemon/${pokemon}`, {headers: {
+    const response = await fetch(`/api/pokemon/${pokemon}`, {headers: {
       "Access-Control-Allow-Origin" : "*" 
     }});
     const pokemonData = await response.json();
